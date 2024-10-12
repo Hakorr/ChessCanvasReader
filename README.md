@@ -1,6 +1,6 @@
 # ChessCanvasReader
 
-A lightweight JS library to read a HTML canvas, especially to convert it to FEN.
+A lightweight JS library (<9kb minified) to read a HTML canvas, especially to convert it to FEN.
 
 > [!CAUTION]
 In early development, not ready to be used. Optimized on Lichess.org boards.
