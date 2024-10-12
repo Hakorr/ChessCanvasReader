@@ -56,6 +56,8 @@ console.log('This is the FEN:', fen);
 3. Piece's convex hull points matched with stored hull points via dynamic time warping. The piece's type is determined by the best match.
 4. Check pixel brightnesses from a centered horizontal line of the convex hull. The piece colour is the determined by how many bright (>127) pixels there were.
 
+The average time to compute the FEN of a board image is around 1.5 ± 0.5 seconds.
+
 ## Important
 
 This project is still in very early development stages, expect a buggy, non-working mess. The goal was to see what it's like to develop computer vision and the message was very well received, it is very hard. Using AI would have helped.
