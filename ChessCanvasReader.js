@@ -16,14 +16,14 @@ class ChessCanvasReader {
 		}
 		
 		this.wantedMinPoints = config?.wantedMinPoints || 750;
-        this.wantedMaxPoints = config?.wantedMaxPoints || 900;
+		this.wantedMaxPoints = config?.wantedMaxPoints || 900;
 		this.squareZoomPx = this.config?.squareZoomPx || 11;
 		this.boardSize = this.config?.boardSize || [8, 8];
 		this.resizeBoardInwards = this.config?.resizeBoardInwards || false;
 		this.debug = config?.debug || false;
 		this.pieceShapes = this?.config?.pieceShapes || [
 			{ 'p': [[0.44,0],[0.56,0],[0.64,0.031],[0.66,0.046],[0.7,0.108],[0.8,0.338],[0.98,0.8],[1,0.862],[1,1],[0,1],[0,0.862],[0.02,0.8],[0.2,0.338],[0.3,0.108],[0.34,0.046],[0.36,0.031],[0.4,0.015]] },
-            { 'r': [[0.103,0],[0.897,0],[0.931,0.031],[1,0.891],[1,0.969],[0.966,1],[0.034,1],[0,0.969],[0,0.891],[0.069,0.031],[0.086,0.016]] },
+			{ 'r': [[0.103,0],[0.897,0],[0.931,0.031],[1,0.891],[1,0.969],[0.966,1],[0.034,1],[0,0.969],[0,0.891],[0.069,0.031],[0.086,0.016]] },
 			{ 'n': [[0.471,0],[0.5,0.015],[0.735,0.162],[0.779,0.191],[0.838,0.25],[0.882,0.309],[0.926,0.397],[0.956,0.485],[0.971,0.544],[0.985,0.618],[1,0.735],[1,0.971],[0.971,1],[0.294,1],[0.265,0.971],[0.029,0.706],[0,0.647],[0,0.559],[0.221,0.044],[0.25,0.015]] },
 			{ 'b': [[0.457,0],[0.543,0],[0.586,0.042],[0.743,0.31],[0.757,0.338],[1,0.944],[1,0.972],[0.971,1],[0.043,1],[0.014,0.986],[0,0.972],[0,0.944],[0.243,0.338],[0.257,0.31],[0.414,0.042],[0.443,0.014]] },
 			{ 'k': [[0.485,0],[0.515,0],[0.897,0.309],[0.971,0.426],[1,0.559],[0.985,0.588],[0.794,0.956],[0.618,0.985],[0.485,1],[0.471,1],[0.235,0.985],[0.206,0.971],[0.029,0.618],[0,0.412],[0.015,0.382]] },
@@ -137,9 +137,9 @@ class ChessCanvasReader {
 
 		for(let y = 0; y < height; y++) {
 			for(let x = 0; x < width; x++) {
-			if(houghSpace[y][x] >= threshold) {
-				cleanedHoughSpace[y][x] = houghSpace[y][x]; // Keep only values above threshold
-			}
+				if(houghSpace[y][x] >= threshold) {
+					cleanedHoughSpace[y][x] = houghSpace[y][x]; // Keep only values above threshold
+				}
 			}
 		}
 
@@ -154,21 +154,21 @@ class ChessCanvasReader {
 			let size = 0;
 
 			while(stack.length > 0) {
-			const [cx, cy] = stack.pop();
+				const [cx, cy] = stack.pop();
 
-			// Check boundaries
-			if(cx < 0 || cy < 0 || cx >= width || cy >= height) continue;
-			if(cleanedHoughSpace[cy][cx] === 0 || labels[cy][cx] !== 0) continue;
+				// Check boundaries
+				if(cx < 0 || cy < 0 || cx >= width || cy >= height) continue;
+				if(cleanedHoughSpace[cy][cx] === 0 || labels[cy][cx] !== 0) continue;
 
-			// Mark the pixel with the current label
-			labels[cy][cx] = label;
-			size++;
+				// Mark the pixel with the current label
+				labels[cy][cx] = label;
+				size++;
 
-			// Push neighboring pixels (4-connectivity)
-			stack.push([cx + 1, cy]);
-			stack.push([cx - 1, cy]);
-			stack.push([cx, cy + 1]);
-			stack.push([cx, cy - 1]);
+				// Push neighboring pixels (4-connectivity)
+				stack.push([cx + 1, cy]);
+				stack.push([cx - 1, cy]);
+				stack.push([cx, cy + 1]);
+				stack.push([cx, cy - 1]);
 			}
 
 			return size;
@@ -177,21 +177,21 @@ class ChessCanvasReader {
 		// Iterate through cleaned Hough space to identify blobs
 		for(let y = 0; y < height; y++) {
 			for(let x = 0; x < width; x++) {
-			if(cleanedHoughSpace[y][x] !== 0 && labels[y][x] === 0) {
-				const blobSize = floodFill(x, y); // Find the size of the blob
+				if(cleanedHoughSpace[y][x] !== 0 && labels[y][x] === 0) {
+					const blobSize = floodFill(x, y); // Find the size of the blob
 
-				// If the blob is too small, set its pixels back to 0
-				if(blobSize < minBlobSize) {
-				for(let j = 0; j < height; j++) {
-					for(let i = 0; i < width; i++) {
-					if(labels[j][i] === label) {
-						cleanedHoughSpace[j][i] = 0; // Remove small blob
+					// If the blob is too small, set its pixels back to 0
+					if(blobSize < minBlobSize) {
+						for(let j = 0; j < height; j++) {
+							for(let i = 0; i < width; i++) {
+								if(labels[j][i] === label) {
+									cleanedHoughSpace[j][i] = 0; // Remove small blob
+								}
+							}
+						}
 					}
-					}
+					label++;
 				}
-				}
-				label++;
-			}
 			}
 		}
 
@@ -380,7 +380,7 @@ class ChessCanvasReader {
 	}
 
 
-    cropChessboardSquares(uint8arr, boardSideSize, squareSize, rows = 8, cols = 8) {
+	cropChessboardSquares(uint8arr, boardSideSize, squareSize, rows = 8, cols = 8) {
 		const canvas = document.createElement('canvas');
 		const ctx = canvas.getContext('2d');
 
@@ -426,7 +426,7 @@ class ChessCanvasReader {
 		}
 
 		return squares; // Array of Uint8Array, each representing a square
-    }
+	}
 
 	isPointInConvexHull(point, hull) {
 		let [px, py] = point;
@@ -610,7 +610,7 @@ class ChessCanvasReader {
 	}
 
 	squeezeEmptySquares(fenStr) {
-    	return fenStr.replace(/1+/g, match => match.length);
+		return fenStr.replace(/1+/g, match => match.length);
 	}
 
 	detectFen(canvas) {
@@ -634,16 +634,16 @@ class ChessCanvasReader {
 			console.log(this.getUint8DataURL(imageUint8Arr, shortestSide, shortestSide));
 		}
 
-        const squareDataArr = this.cropChessboardSquares(imageUint8Arr, shortestSide, squareSize, this.boardSize[0], this.boardSize[1]);
-        
-        for(let o of squareDataArr) {
+		const squareDataArr = this.cropChessboardSquares(imageUint8Arr, shortestSide, squareSize, this.boardSize[0], this.boardSize[1]);
+		
+		for(let o of squareDataArr) {
 			const squareImageClampedUint8 = o.uint8;
 			const coords = o.coords;
 			const maxAttempts = 10;
 
 			let minThreshold = 0; // Minimum possible threshold
 			let maxThreshold = 1000; // Initial maximum threshold
-            let foundThreshold = false;
+			let foundThreshold = false;
 			let attempts = 0;
 			let attemptedCachedThreshold = false;
 
@@ -656,8 +656,8 @@ class ChessCanvasReader {
 				console.log(this.getUint8DataURL(squareImageClampedUint8, squareSize, squareSize));
 			}
 
-            // Process the single square image
-            while(!foundThreshold) {
+			// Process the single square image
+			while(!foundThreshold) {
 				let threshold;
 				attempts++;
 
@@ -673,8 +673,8 @@ class ChessCanvasReader {
 				if(this.debug) {
 					console.warn('Attempting edge detection with threshold', threshold);
 				}
-                
-                const edges = this.edgeDetection(squareImageClampedUint8, threshold, squareSize);
+				
+				const edges = this.edgeDetection(squareImageClampedUint8, threshold, squareSize);
 
 				if(this.debug) {
 					console.warn('Edges filter (1D uint8, non RGB):\n', this.getUint8DataURL(edges, squareSize, squareSize));
@@ -707,13 +707,13 @@ class ChessCanvasReader {
 					console.warn('Points which were found on the edges', points);
 				}
 
-                if(points.length > this.wantedMaxPoints) {
+				if(points.length > this.wantedMaxPoints) {
 					minThreshold = threshold + 1;
 				}
 
-                // The correct threshold was found, process points and identify chess piece
-                else if(points.length > this.wantedMinPoints) {
-                    foundThreshold = true;
+				// The correct threshold was found, process points and identify chess piece
+				else if(points.length > this.wantedMinPoints) {
+					foundThreshold = true;
 
 					this.cachedThresholds[1] = this.cachedThresholds[0];
 					this.cachedThresholds[0] = threshold;
@@ -723,29 +723,29 @@ class ChessCanvasReader {
 					}
 
 					const rawHullPoints = this.getConvexHull(points); // Filters only tens of points from hundreds
-                    const hullPoints = this.normalizePointsToUnitSquare(rawHullPoints); // Normalizes points for similarity analysis
-                    const pieceFen = this.identifyChessPiece(hullPoints);
-                    const pieceColor = this.getPieceColorFromConvexHull(squareImageClampedUint8, rawHullPoints, squareSize);
+					const hullPoints = this.normalizePointsToUnitSquare(rawHullPoints); // Normalizes points for similarity analysis
+					const pieceFen = this.identifyChessPiece(hullPoints);
+					const pieceColor = this.getPieceColorFromConvexHull(squareImageClampedUint8, rawHullPoints, squareSize);
 
 					if(this.debug) {
 						console.warn('Detected piece:', pieceFen, 'with the color: ', pieceColor, '\nHull points:', hullPoints, '\n-- [END SQUARE ANALYSIS] --\n\n\n');
 					}
 
-                    if(pieceColor === 'w')
+					if(pieceColor === 'w')
 						fen += pieceFen.toUpperCase();
-                    else
+					else
 						fen += pieceFen;
 
 					attemptAmountArr.push(attempts);
 
 					break;
-                }
-                
-                else {
+				}
+				
+				else {
 					maxThreshold = threshold - 1;
 				}
-            }
-        }
+			}
+		}
 
 		fen = this.squeezeEmptySquares(fen);
 
