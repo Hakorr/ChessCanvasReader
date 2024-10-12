@@ -1,7 +1,7 @@
 /* ChessCanvasReader.js
  - Version: 0.9
  - Author: Haka
- - Description: A lightweight JS library to read a HTML canvas, especially convert it to FEN
+ - Description: A lightweight JS library to read a HTML canvas, especially to convert it to FEN
  - GitHub: https://github.com/Hakorr/ChessCanvasReader
 */
 
